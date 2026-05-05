@@ -12,9 +12,9 @@ import { useDesktopStore } from "@/store/useDesktopStore";
 import type { AppId } from "@/types";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-const TITLEBAR_H = 28;
-const MENUBAR_H  = 24;
-const DOCK_AREA_H = 96;
+const TITLEBAR_H  = 28;
+const MENUBAR_H   = 24;   // matches --menubar-height CSS var
+const DOCK_AREA_H = 96;   // --dock-height (80) + bottom margin (16)
 
 const SPRING = { type: "spring" as const, stiffness: 320, damping: 30 };
 
@@ -201,10 +201,12 @@ export default function Window({
           ? "0 22px 70px 4px rgba(0,0,0,0.56), 0 0 0 1px rgba(255,255,255,0.08)"
           : "0 8px 32px rgba(0,0,0,0.28), 0 0 0 0.5px rgba(0,0,0,0.14)",
       }}
-      drag={!isMaximized}
+      drag
       dragControls={dragControls}
       dragListener={false}
-      dragConstraints={constraintsRef}
+      dragConstraints={isMaximized
+        ? { left: -9999, right: 9999, top: -9999, bottom: 9999 }
+        : constraintsRef}
       dragElastic={0}
       dragMomentum={false}
       onDragEnd={handleDragEnd}
