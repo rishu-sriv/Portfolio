@@ -3,12 +3,18 @@ import type { AppId, WindowState } from "@/types";
 
 const Z_INDEX_BASE = 100;
 
+export interface WindowOpenConfig {
+  defaultPosition?: { x: number; y: number };
+  defaultSize?: { width: number; height: number };
+  minSize?: { width: number; height: number };
+}
+
 interface WindowStore {
   windows: Record<AppId, WindowState>;
   focusedWindowId: AppId | null;
   zCounter: number;
 
-  openWindow: (id: AppId) => void;
+  openWindow: (id: AppId, config?: WindowOpenConfig) => void;
   closeWindow: (id: AppId) => void;
   minimizeWindow: (id: AppId) => void;
   restoreWindow: (id: AppId) => void;
@@ -18,13 +24,13 @@ interface WindowStore {
   updateSize: (id: AppId, size: { width: number; height: number }) => void;
 }
 
-const defaultWindowState = (id: AppId): WindowState => ({
+const defaultWindowState = (id: AppId, config?: WindowOpenConfig): WindowState => ({
   id,
   isOpen: false,
   isMinimized: false,
   isMaximized: false,
-  position: { x: 80, y: 48 },
-  size: { width: 800, height: 560 },
+  position: config?.defaultPosition ?? { x: 80, y: 48 },
+  size: config?.defaultSize ?? { width: 800, height: 560 },
   zIndex: Z_INDEX_BASE,
 });
 
@@ -33,7 +39,7 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
   focusedWindowId: null,
   zCounter: Z_INDEX_BASE,
 
-  openWindow: (id) => {
+  openWindow: (id, config) => {
     const { zCounter, windows } = get();
     const next = zCounter + 1;
     const existing = windows[id];
@@ -44,7 +50,7 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
         ...windows,
         [id]: existing
           ? { ...existing, isOpen: true, isMinimized: false, zIndex: next }
-          : { ...defaultWindowState(id), isOpen: true, zIndex: next },
+          : { ...defaultWindowState(id, config), isOpen: true, zIndex: next },
       },
     });
   },
