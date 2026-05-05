@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDesktopStore } from "@/store/useDesktopStore";
 import { useWindowStore } from "@/store/useWindowStore";
 import Window from "@/components/windows/Window";
+import AboutWindow from "@/components/windows/AboutWindow";
+import FinderWindow from "@/components/windows/FinderWindow";
 import type { AppId } from "@/types";
 
 // ─── App metadata registry ────────────────────────────────────────────────────
@@ -42,9 +44,9 @@ const APP_META: Record<
   about: {
     title: "About This Mac",
     icon: "/icons/about.png",
-    defaultPosition: { x: 200, y: 120 },
-    defaultSize: { width: 560, height: 380 },
-    minSize: { width: 480, height: 320 },
+    defaultPosition: { x: 160, y: 60 },
+    defaultSize: { width: 860, height: 580 },
+    minSize: { width: 640, height: 420 },
   },
   guestbook: {
     title: "Guestbook",
@@ -217,8 +219,9 @@ export default function Desktop() {
             onClose={() => closeWindow(id)}
             onMinimize={() => minimizeWindow(id)}
           >
-            {/* App content is injected by phase 4 app components */}
-            <AppPlaceholder id={id} />
+            {id === "about"   ? <AboutWindow />   :
+             id === "finder"  ? <FinderWindow />  :
+             <AppPlaceholder id={id} />}
           </Window>
         );
       })}

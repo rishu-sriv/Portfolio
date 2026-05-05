@@ -13,7 +13,7 @@ import {
   Folder,
   Globe,
   Terminal,
-  Mail,
+  Fingerprint,
   LayoutGrid,
   Trash2,
   BookOpen,
@@ -32,6 +32,9 @@ interface DockApp {
   bg: string;
   color: string;
   isApp?: boolean;
+  /** Optional image-based icon paths (overrides Icon when provided) */
+  iconLight?: string;
+  iconDark?: string;
 }
 
 // ── App definitions ────────────────────────────────────────────────────────────
@@ -60,6 +63,8 @@ const MAIN_APPS: DockApp[] = [
     bg: "linear-gradient(145deg, #3a9bd5, #1e6fa5)",
     color: "#ffffff",
     isApp: true,
+    iconLight: "/icons/safari-light.png",
+    iconDark: "/icons/safari-dark.jpg",
   },
   {
     id: "terminal",
@@ -71,9 +76,9 @@ const MAIN_APPS: DockApp[] = [
   },
   {
     id: "about",
-    name: "Mail",
-    Icon: Mail,
-    bg: "linear-gradient(145deg, #2196F3, #1565C0)",
+    name: "About Me",
+    Icon: Fingerprint,
+    bg: "linear-gradient(145deg, #a855f7, #6d28d9)",
     color: "#ffffff",
     isApp: true,
   },
@@ -89,23 +94,23 @@ const TRASH_APP: DockApp = {
 
 // Full app metadata used for minimized window thumbnails
 const APP_META: Partial<
-  Record<AppId, { name: string; Icon: React.ElementType; bg: string; color: string; titlebarBg: string }>
+  Record<AppId, { name: string; Icon: React.ElementType; bg: string; color: string; titlebarBg: string; iconLight?: string; iconDark?: string }>
 > = {
   finder:    { name: "Finder",    Icon: Folder,    bg: "linear-gradient(145deg,#1d72f3,#0a4db5)", color: "#fff",    titlebarBg: "#d8dce0" },
   launchpad: { name: "Launchpad", Icon: LayoutGrid, bg: "linear-gradient(145deg,#e74c3c,#a93226)", color: "#fff",    titlebarBg: "#e0d8d8" },
-  safari:    { name: "Safari",    Icon: Globe,      bg: "linear-gradient(145deg,#3a9bd5,#1e6fa5)", color: "#fff",    titlebarBg: "#d8dde0" },
+  safari:    { name: "Safari",    Icon: Globe,      bg: "linear-gradient(145deg,#3a9bd5,#1e6fa5)", color: "#fff",    titlebarBg: "#d8dde0", iconLight: "/icons/safari-light.png", iconDark: "/icons/safari-dark.jpg" },
   terminal:  { name: "Terminal",  Icon: Terminal,   bg: "linear-gradient(145deg,#2d2d2d,#1a1a1a)", color: "#00ff88", titlebarBg: "#232323" },
-  about:     { name: "Mail",      Icon: Mail,       bg: "linear-gradient(145deg,#2196F3,#1565C0)", color: "#fff",    titlebarBg: "#d8dce0" },
+  about:     { name: "About Me",   Icon: Fingerprint, bg: "linear-gradient(145deg,#a855f7,#6d28d9)", color: "#fff",    titlebarBg: "#e8d8f0" },
   guestbook: { name: "Guestbook", Icon: BookOpen,   bg: "linear-gradient(145deg,#9c27b0,#6a1b9a)", color: "#fff",    titlebarBg: "#ddd8e0" },
   spotlight: { name: "Spotlight", Icon: Search,     bg: "linear-gradient(145deg,#607d8b,#455a64)", color: "#fff",    titlebarBg: "#d8dadb" },
 };
 
 // ── DockIcon ──────────────────────────────────────────────────────────────────
 
-const BASE_SIZE    = 52;
-const HOVER_SIZE   = 72;
-const MAGNIFY_RADIUS = 120;
-const ICON_RADIUS  = 13;
+const BASE_SIZE      = 52;
+const HOVER_SCALE    = 1.65;   // icon grows to ~86 px at peak — matches macOS feel
+const MAGNIFY_RADIUS = 130;
+const ICON_RADIUS    = 13;
 
 interface DockIconProps {
   app: DockApp;
@@ -118,6 +123,7 @@ interface DockIconProps {
 function DockIcon({ app, mouseX, isActive = false, onClick }: DockIconProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState(false);
+  const { isDarkMode } = useDesktopStore();
 
   const distance = useTransform(mouseX, (val: number) => {
     const bounds = ref.current?.getBoundingClientRect();
@@ -125,49 +131,63 @@ function DockIcon({ app, mouseX, isActive = false, onClick }: DockIconProps) {
     return val - (bounds.left + bounds.width / 2);
   });
 
-  const sizeTransform = useTransform(distance, (d: number) => {
-    if (d === Infinity) return BASE_SIZE;
+  // Scale 1 → HOVER_SCALE based on cursor proximity
+  const scaleTransform = useTransform(distance, (d: number) => {
+    if (d === Infinity) return 1;
     const abs = Math.abs(d);
-    if (abs >= MAGNIFY_RADIUS) return BASE_SIZE;
+    if (abs >= MAGNIFY_RADIUS) return 1;
     const t = (1 - abs / MAGNIFY_RADIUS) ** 1.6;
-    return BASE_SIZE + (HOVER_SIZE - BASE_SIZE) * t;
+    return 1 + (HOVER_SCALE - 1) * t;
   });
 
-  const size = useSpring(sizeTransform, { mass: 0.08, stiffness: 180, damping: 14 });
+  const scale = useSpring(scaleTransform, { mass: 0.08, stiffness: 200, damping: 16 });
 
   const { Icon } = app;
 
   return (
-    // Fixed-height wrapper so every icon (with or without the dot) takes the
-    // exact same vertical space. Without this, active icons are taller than
-    // inactive ones (dot + 4 px margin), causing trash to appear misaligned.
+    // Fixed layout size — scale transform overflows upward, never pushes siblings
     <div
-      className="relative flex flex-col items-center justify-end"
-      style={{ width: BASE_SIZE + 8, height: BASE_SIZE + 7 }}
+      className="relative flex flex-col items-center"
+      style={{ width: BASE_SIZE + 8, height: BASE_SIZE + 7, flexShrink: 0 }}
     >
       {tooltip && <DockTooltip label={app.name} />}
 
       <motion.div
         ref={ref}
-        style={{ width: size, height: size, borderRadius: ICON_RADIUS }}
+        style={{
+          width: BASE_SIZE,
+          height: BASE_SIZE,
+          borderRadius: ICON_RADIUS,
+          scale,
+          transformOrigin: "bottom center",  // grows upward, not sideways
+        }}
         className="relative flex items-center justify-center cursor-pointer overflow-hidden"
         onClick={onClick}
         onMouseEnter={() => setTooltip(true)}
         onMouseLeave={() => setTooltip(false)}
         whileTap={{ scale: 0.88 }}
-        transition={{ type: "spring", stiffness: 400, damping: 20 }}
       >
-        <div className="absolute inset-0" style={{ background: app.bg }} />
-        <div
-          className="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
-          style={{ background: "linear-gradient(180deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0) 100%)" }}
-          aria-hidden="true"
-        />
-        <Icon className="relative z-10" style={{ color: app.color }} size="44%" strokeWidth={1.8} />
+        {app.iconLight && app.iconDark ? (
+          <img
+            src={isDarkMode ? app.iconDark : app.iconLight}
+            alt={app.name}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            draggable={false}
+          />
+        ) : (
+          <>
+            <div className="absolute inset-0" style={{ background: app.bg }} />
+            <div
+              className="absolute inset-x-0 top-0 h-1/2 pointer-events-none"
+              style={{ background: "linear-gradient(180deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0) 100%)" }}
+              aria-hidden="true"
+            />
+            <Icon className="relative z-10" style={{ color: app.color }} size="44%" strokeWidth={1.8} />
+          </>
+        )}
       </motion.div>
 
-      {/* Dot — always occupies 7 px so all icons have identical height.
-          Transparent when app is not actively running. */}
+      {/* Dot — fixed 7 px slot so all icons stay at the same baseline */}
       <div
         style={{
           width: 3,
@@ -218,7 +238,7 @@ function MinimizedWindowTab({ id, mouseX }: MinimizedWindowTabProps) {
     const abs = Math.abs(d);
     if (abs >= MAGNIFY_RADIUS) return 1;
     const t = (1 - abs / MAGNIFY_RADIUS) ** 1.6;
-    return 1 + (HOVER_SIZE / BASE_SIZE - 1) * t * 0.65; // slightly less than icons
+    return 1 + (HOVER_SCALE - 1) * t * 0.65; // slightly less than icons
   });
   const scale = useSpring(scaleT, { mass: 0.08, stiffness: 180, damping: 14 });
 
@@ -307,11 +327,20 @@ function MinimizedWindowTab({ id, mouseX }: MinimizedWindowTabProps) {
               justifyContent: "center",
             }}
           >
-            <Icon
-              style={{ color: isDarkMode ? meta.color : "#888", opacity: 0.45 }}
-              size={16}
-              strokeWidth={1.5}
-            />
+            {meta.iconLight && meta.iconDark ? (
+              <img
+                src={isDarkMode ? meta.iconDark : meta.iconLight}
+                alt={meta.name}
+                style={{ width: 18, height: 18, objectFit: "contain", opacity: 0.7 }}
+                draggable={false}
+              />
+            ) : (
+              <Icon
+                style={{ color: isDarkMode ? meta.color : "#888", opacity: 0.45 }}
+                size={16}
+                strokeWidth={1.5}
+              />
+            )}
           </div>
         </div>
       </motion.div>
