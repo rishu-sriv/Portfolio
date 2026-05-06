@@ -1,21 +1,10 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable in .env.local"
-  );
-}
-
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
 }
 
-// In development, cache the connection on the Node.js global object to prevent
-// exhausting connections during hot-reload. In production the module is
-// evaluated once per Lambda cold-start so the module-level variable suffices.
 const globalWithMongoose = global as typeof globalThis & {
   _mongooseCache?: MongooseCache;
 };
@@ -26,12 +15,18 @@ const cached: MongooseCache = (globalWithMongoose._mongooseCache ??= {
 });
 
 export async function connectDB(): Promise<typeof mongoose> {
+  const uri = process.env.MONGODB_URI;
+
+  // Fail clearly inside the function — not at module level — so the route's
+  // try/catch can handle it and return a proper JSON error instead of crashing.
+  if (!uri || uri === "your_mongodb_atlas_uri_here") {
+    throw new Error("MONGODB_URI is not configured");
+  }
+
   if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI as string, {
-      bufferCommands: false,
-    });
+    cached.promise = mongoose.connect(uri, { bufferCommands: false });
   }
 
   cached.conn = await cached.promise;

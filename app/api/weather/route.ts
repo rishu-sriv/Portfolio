@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import type { WeatherData } from "@/types";
 
-// Revalidate cached response every 10 minutes
-export const revalidate = 600;
-
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
   const apiKey = process.env.OPENWEATHER_API_KEY;
-  const city   = process.env.WEATHER_CITY ?? "Mumbai";
+  const city   = searchParams.get("city") ?? process.env.WEATHER_CITY ?? "Mumbai";
 
   // If no API key, return plausible mock data so the widget still renders
   if (!apiKey || apiKey === "your_openweathermap_api_key_here") {

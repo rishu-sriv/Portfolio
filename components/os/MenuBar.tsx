@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Wifi, BatteryFull, Moon, Sun, Volume2, VolumeX } from "lucide-react";
 import { useDesktopStore } from "@/store/useDesktopStore";
 import { useSoundStore } from "@/store/useSoundStore";
@@ -36,11 +36,18 @@ function ControlCenterIcon() {
 const MENU_ITEMS = ["File", "Edit", "View", "Go", "Window", "Help"];
 const TEXT_COLOR = "rgba(255,255,255,0.9)";
 
+interface MenuBarProps {
+  onShutdown: () => void;
+}
+
 // ── MenuBar ────────────────────────────────────────────────────────────────────
 
-export default function MenuBar() {
+export default function MenuBar({ onShutdown }: MenuBarProps) {
   const [time, setTime] = useState<string>("");
   const [date, setDate] = useState<string>("");
+  const [appleMenuOpen, setAppleMenuOpen] = useState(false);
+  const appleMenuRef = useRef<HTMLDivElement>(null);
+
   const { isDarkMode, toggleDarkMode, isNotificationCenterOpen, setNotificationCenterOpen, isSpidermanVisible } =
     useDesktopStore();
   const { isMuted, toggleMute } = useSoundStore();
@@ -67,6 +74,23 @@ export default function MenuBar() {
     return () => clearInterval(id);
   }, []);
 
+  // Close apple menu on outside click
+  useEffect(() => {
+    if (!appleMenuOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (appleMenuRef.current && !appleMenuRef.current.contains(e.target as Node)) {
+        setAppleMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [appleMenuOpen]);
+
+  const handleShutdown = () => {
+    setAppleMenuOpen(false);
+    onShutdown();
+  };
+
   return (
     <header
       role="banner"
@@ -82,9 +106,48 @@ export default function MenuBar() {
     >
       {/* ── Left ─────────────────────────────────────────────────────── */}
       <div className="flex items-center flex-1" style={{ gap: "16px" }}>
-        <button className="flex items-center justify-center" aria-label="Apple menu" style={{ color: TEXT_COLOR }}>
-          <AppleLogo />
-        </button>
+        {/* Apple menu */}
+        <div className="relative" ref={appleMenuRef}>
+          <button
+            onClick={() => setAppleMenuOpen((v) => !v)}
+            className="flex items-center justify-center px-1 py-0.5 rounded transition-colors"
+            aria-label="Apple menu"
+            style={{
+              color: TEXT_COLOR,
+              background: appleMenuOpen ? "rgba(255,255,255,0.2)" : "transparent",
+            }}
+          >
+            <AppleLogo />
+          </button>
+
+          {appleMenuOpen && (
+            <div
+              className="absolute left-0 top-full mt-0.5 rounded-lg overflow-hidden"
+              style={{
+                width: 200,
+                background: "rgba(30,30,30,0.92)",
+                backdropFilter: "blur(40px)",
+                WebkitBackdropFilter: "blur(40px)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+                zIndex: 100,
+              }}
+            >
+              <AppleMenuItem label="About This Mac" onClick={() => setAppleMenuOpen(false)} />
+              <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "2px 0" }} />
+              <AppleMenuItem label="System Preferences…" onClick={() => setAppleMenuOpen(false)} />
+              <AppleMenuItem label="App Store…" onClick={() => setAppleMenuOpen(false)} />
+              <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "2px 0" }} />
+              <AppleMenuItem label="Sleep" onClick={() => setAppleMenuOpen(false)} />
+              <AppleMenuItem label="Restart…" onClick={() => setAppleMenuOpen(false)} />
+              <AppleMenuItem
+                label="Shut Down…"
+                onClick={handleShutdown}
+                danger
+              />
+            </div>
+          )}
+        </div>
 
         <span style={{ fontWeight: 500, color: TEXT_COLOR }}>Finder</span>
 
@@ -105,7 +168,6 @@ export default function MenuBar() {
           <div
             className="pointer-events-none select-none absolute"
             style={{
-              // Hinge placed right next to the battery icon.
               left: "calc(100% + 8px)",
               top: "-10px",
               width: 0,
@@ -177,7 +239,7 @@ export default function MenuBar() {
           </button>
         </div>
 
-        {/* Date + Time — click to open Notification Center */}
+        {/* Date + Time */}
         <button
           onClick={() => setNotificationCenterOpen(!isNotificationCenterOpen)}
           className="flex items-center gap-1.5 px-1 rounded transition-colors"
@@ -193,5 +255,39 @@ export default function MenuBar() {
         </button>
       </div>
     </header>
+  );
+}
+
+// ── Apple menu item ────────────────────────────────────────────────────────────
+
+function AppleMenuItem({
+  label,
+  onClick,
+  danger,
+}: {
+  label: string;
+  onClick: () => void;
+  danger?: boolean;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full text-left px-4 py-1.5 text-[13px] transition-colors"
+      style={{
+        color: danger ? "#ff453a" : "rgba(255,255,255,0.9)",
+        background: "transparent",
+        border: "none",
+        cursor: "default",
+        display: "block",
+      }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.12)";
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+      }}
+    >
+      {label}
+    </button>
   );
 }

@@ -147,6 +147,13 @@ body {
   background: var(--text-secondary);
 }
 
+/* ─── Safari browser progress animation ──────────────────────────────────────── */
+@keyframes safari-progress {
+  0%   { transform: translateX(-100%); }
+  50%  { transform: translateX(60%); }
+  100% { transform: translateX(200%); }
+}
+
 @keyframes spidey-sway-2d {
   0% {
     transform: translateX(-50%) translateY(0px) rotate(-8deg);

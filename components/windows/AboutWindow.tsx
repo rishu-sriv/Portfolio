@@ -5,10 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
   ChevronRight,
-  Coffee,
-  Music,
-  Gamepad2,
-  Globe,
 } from "lucide-react";
 import { useDesktopStore } from "@/store/useDesktopStore";
 
@@ -133,39 +129,46 @@ function SlideIntro({ dark }: { dark: boolean }) {
 // ─── Slide 2 — Skills ─────────────────────────────────────────────────────────
 
 const CORE_LANGUAGES = [
-  { name: "Python", pct: 95 },
-  { name: "C++", pct: 85 },
-  { name: "SQL", pct: 80 },
+  { name: "Python",     pct: 95 },
   { name: "TypeScript", pct: 92 },
-  { name: "JavaScript", pct: 90 },
+  { name: "JavaScript", pct: 88 },
+  { name: "SQL",        pct: 82 },
 ];
 
-const FRAMEWORKS_AND_LIBS = [
-  "React",
-  "Next.js",
-  "FastAPI",
-  "Tailwind CSS",
-  "Node.js",
+const AI_ML_STACK = [
+  "LLMs / RAG Pipelines",
+  "Vector DBs (Qdrant)",
   "LangChain",
-  "Qdrant",
+  "Statistical Analysis",
+  "Agentic Workflows",
 ];
 
-const TOOLS_AND_DATABASES = [
-  "Git & GitHub",
-  "Docker",
-  "MongoDB",
-  "PostgreSQL",
-  "AWS",
+const BACKEND_INFRA = [
+  "FastAPI",
+  "Flask",
   "Redis",
+  "Celery",
+  "PostgreSQL / TimescaleDB",
+  "Node.js",
+  "WebRTC",
+  "MongoDB",
+  "Docker / CI-CD",
+];
+
+const FRONTEND_STACK = [
+  "React / Next.js",
+  "Tailwind CSS",
+  "Framer Motion",
+  "TypeScript",
 ];
 
 const FOCUS_AREAS = [
-  "Data Structures & Algorithms",
-  "Object-Oriented Programming",
-  "RESTful API Design",
+  "RAG & Retrieval Systems",
+  "Event-Driven Architecture",
+  "Time-Series & Anomaly Detection",
+  "RESTful & WebSocket API Design",
   "System Design",
-  "LLM Workflows",
-  "RCA & 5 Whys",
+  "Fintech AI Pipelines",
 ];
 
 function SlideSkills({ dark }: { dark: boolean }) {
@@ -230,16 +233,16 @@ function SlideSkills({ dark }: { dark: boolean }) {
           }}
         >
           <h3 className="text-[14px] font-semibold mb-2.5" style={{ color: "var(--text-primary)" }}>
-            Frameworks &amp; Libraries
+            AI &amp; ML Stack
           </h3>
           <div className="flex flex-wrap gap-2">
-            {FRAMEWORKS_AND_LIBS.map((item) => (
+            {AI_ML_STACK.map((item) => (
               <span
                 key={item}
                 className="text-[11px] font-medium px-2.5 py-1 rounded-full"
                 style={{
-                  color: "var(--accent)",
-                  background: dark ? "rgba(41,151,255,0.14)" : "rgba(0,113,227,0.1)",
+                  color: dark ? "#a78bfa" : "#6d28d9",
+                  background: dark ? "rgba(167,139,250,0.14)" : "rgba(109,40,217,0.08)",
                 }}
               >
                 {item}
@@ -256,16 +259,42 @@ function SlideSkills({ dark }: { dark: boolean }) {
           }}
         >
           <h3 className="text-[14px] font-semibold mb-2.5" style={{ color: "var(--text-primary)" }}>
-            Tools &amp; Databases
+            Backend &amp; Infrastructure
           </h3>
           <div className="flex flex-wrap gap-2">
-            {TOOLS_AND_DATABASES.map((item) => (
+            {BACKEND_INFRA.map((item) => (
               <span
                 key={item}
                 className="text-[11px] font-medium px-2.5 py-1 rounded-full"
                 style={{
                   color: dark ? "#fbbf24" : "#92400e",
                   background: dark ? "rgba(251,191,36,0.14)" : "rgba(251,191,36,0.16)",
+                }}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <section
+          className="rounded-xl p-4"
+          style={{
+            background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
+            border: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+          }}
+        >
+          <h3 className="text-[14px] font-semibold mb-2.5" style={{ color: "var(--text-primary)" }}>
+            Frontend
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {FRONTEND_STACK.map((item) => (
+              <span
+                key={item}
+                className="text-[11px] font-medium px-2.5 py-1 rounded-full"
+                style={{
+                  color: "var(--accent)",
+                  background: dark ? "rgba(41,151,255,0.14)" : "rgba(0,113,227,0.1)",
                 }}
               >
                 {item}
@@ -462,32 +491,29 @@ function SlideEducation({ dark }: { dark: boolean }) {
 
 const FUN_FACTS = [
   {
-    icon: Coffee,
-    color: "#b5651d",
-    bg: "rgba(181,101,29,0.12)",
-    title: "Caffeine-Driven",
-    text: "Powered by an unhealthy amount of cold brew. Coffee-to-code ratio is 1:1.",
+    emoji: "🏏",
+    title: "Cricket > Productivity",
+    text: "I can spend an entire day dissecting match moments, impossible chases, and why that one over changed everything. Virat and Rohit will always be the legends — no debate, no context needed.",
   },
   {
-    icon: Globe,
-    color: "#2997ff",
-    bg: "rgba(41,151,255,0.12)",
-    title: "Open Source Fan",
-    text: "Regularly contribute to open source projects and love reading other people's code.",
+    emoji: "🥄",
+    title: "Cutlery Enthusiast",
+    text: "I judge restaurants slightly based on how good their spoons feel. No further questions.",
   },
   {
-    icon: Music,
-    color: "#1DB954",
-    bg: "rgba(29,185,84,0.12)",
-    title: "Music While Coding",
-    text: "Lo-fi hip hop and jazz are my go-to coding playlists. Noise cancelling headphones required.",
+    emoji: "🍳",
+    title: "Kitchen Experimenter",
+    text: "Half my recipes come from confidence instead of measurements. It works until it really doesn't.",
   },
   {
-    icon: Gamepad2,
-    color: "#a855f7",
-    bg: "rgba(168,85,247,0.12)",
-    title: "Weekend Builder",
-    text: "I spend weekends building random side projects that nobody asked for but I enjoy anyway.",
+    emoji: "🎮",
+    title: "Can Turn Anything Competitive",
+    text: "FIFA, table tennis, chai-making, card games — somehow it always becomes a serious matter.",
+  },
+  {
+    emoji: "🎵",
+    title: "Karan Aujla & The 1975 on Repeat",
+    text: "If there's music playing while I work, it's either The 1975 or Karan Aujla — zero in-between. One good track can reset the entire day.",
   },
 ];
 
@@ -501,46 +527,74 @@ function SlideFunFacts({ dark }: { dark: boolean }) {
         Fun Facts
       </h2>
 
-      <div className="grid grid-cols-2 gap-4 flex-1 content-start">
-        {FUN_FACTS.map((fact, i) => {
-          const Icon = fact.icon;
-          return (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.09, duration: 0.3 }}
-              className="flex flex-col gap-3 p-4 rounded-xl"
-              style={{
-                background: dark
-                  ? "rgba(255,255,255,0.05)"
-                  : "rgba(0,0,0,0.03)",
-                border: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)"}`,
-              }}
-            >
-              <div
-                className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                style={{ background: fact.bg }}
+      <div
+        className="flex-1 overflow-y-auto pr-1"
+        style={{ scrollbarWidth: "thin" }}
+      >
+        {/* 2-col grid; last card (5th) auto-centers via justify-items */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 20,
+            justifyItems: "stretch",
+          }}
+        >
+          {FUN_FACTS.map((fact, i) => {
+            const isLast = i === FUN_FACTS.length - 1 && FUN_FACTS.length % 2 !== 0;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.07, duration: 0.3 }}
+                style={{
+                  gridColumn: isLast ? "1 / -1" : undefined,
+                  maxWidth: isLast ? "50%" : undefined,
+                  margin: isLast ? "0 auto" : undefined,
+                  padding: "20px 22px",
+                  borderRadius: 14,
+                  border: `1px solid ${dark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.08)"}`,
+                  background: dark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10,
+                }}
               >
-                <Icon size={18} color={fact.color} />
-              </div>
-              <div className="space-y-1">
+                {/* Large emoji */}
+                <span style={{ fontSize: 32, lineHeight: 1, userSelect: "none" }}>
+                  {fact.emoji}
+                </span>
+
+                {/* Title */}
                 <h3
-                  className="text-[13px] font-semibold"
-                  style={{ color: "var(--text-primary)" }}
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: "var(--text-primary)",
+                    margin: 0,
+                    lineHeight: 1.3,
+                  }}
                 >
                   {fact.title}
                 </h3>
+
+                {/* Description */}
                 <p
-                  className="text-[12px] leading-relaxed"
-                  style={{ color: "var(--text-secondary)" }}
+                  style={{
+                    fontSize: 12,
+                    lineHeight: 1.65,
+                    color: "var(--text-secondary)",
+                    margin: 0,
+                    opacity: 0.75,
+                  }}
                 >
                   {fact.text}
                 </p>
-              </div>
-            </motion.div>
-          );
-        })}
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

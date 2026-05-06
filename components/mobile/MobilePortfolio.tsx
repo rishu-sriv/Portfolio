@@ -31,9 +31,9 @@ function InstagramIcon({ size = 20 }: { size?: number }) {
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 const SKILLS = [
-  "React", "TypeScript", "Next.js", "Tailwind CSS",
-  "Node.js", "Python", "PostgreSQL", "MongoDB",
-  "Docker", "Git", "AWS", "Redis",
+  "LLMs / RAG", "Python", "FastAPI", "Redis",
+  "PostgreSQL", "React", "Next.js", "TypeScript",
+  "Qdrant", "LangChain", "Celery", "Docker",
 ];
 
 // ── Sub-components ────────────────────────────────────────────────────────────

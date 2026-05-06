@@ -54,16 +54,16 @@ const DIM = "#64748b"; // dim
 // ─── Skill bar builder ────────────────────────────────────────────────────────
 
 const SKILLS = [
-  { name: "React / Next.js", level: 95, label: "Expert" },
-  { name: "TypeScript",      level: 92, label: "Expert" },
-  { name: "Framer Motion",   level: 88, label: "Expert" },
-  { name: "Tailwind CSS",    level: 90, label: "Expert" },
-  { name: "Node.js",         level: 85, label: "Advanced" },
-  { name: "Python",          level: 78, label: "Advanced" },
-  { name: "PostgreSQL",      level: 75, label: "Advanced" },
-  { name: "Docker / CI/CD",  level: 70, label: "Proficient" },
-  { name: "GraphQL",         level: 68, label: "Proficient" },
-  { name: "Redis",           level: 65, label: "Proficient" },
+  { name: "LLMs / RAG Pipelines",    level: 95, label: "Expert"    },
+  { name: "Python",                   level: 93, label: "Expert"    },
+  { name: "React / Next.js",          level: 95, label: "Expert"    },
+  { name: "TypeScript",               level: 92, label: "Expert"    },
+  { name: "Vector DBs (Qdrant)",      level: 88, label: "Advanced"  },
+  { name: "FastAPI",                  level: 94, label: "Advanced"  },
+  { name: "Redis",                    level: 91, label: "Advanced"  },
+  { name: "PostgreSQL/TimescaleDB",   level: 88, label: "Advanced"  },
+  { name: "Node.js",                  level: 92, label: "Advanced"  },
+  { name: "Docker / CI-CD",           level: 89, label: "Advanced"  },
 ];
 
 function skillLines(): TerminalLine[] {

@@ -4,6 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Portfolio — macOS",
   description: "A macOS-inspired developer portfolio",
+  icons: {
+    icon: "/icons/about-me.jpg",
+    apple: "/icons/about-me.jpg",
+  },
 };
 
 export default function RootLayout({

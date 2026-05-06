@@ -26,7 +26,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
   useEffect(() => {
     const audio = new Audio("/sounds/macbook-startup-chime-2020.mp3");
     audio.preload = "auto";
-    audio.playsInline = true;
+    (audio as HTMLAudioElement & { playsInline: boolean }).playsInline = true;
     audio.load();
     audioRef.current = audio;
 
@@ -89,11 +89,23 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
       transition={exiting ? { duration: 0.5, ease: [0.4, 0, 0.2, 1] } : { duration: 0.01 }}
     >
       <motion.div
+        className="flex flex-col items-center gap-5"
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: "easeOut", delay: 0.15 }}
       >
         <AppleLogo />
+        <p
+          style={{
+            color: "#ffffff",
+            fontWeight: 700,
+            fontSize: "22px",
+            letterSpacing: "-0.01em",
+            fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif",
+          }}
+        >
+          Sameer&apos;s MacBook Air
+        </p>
       </motion.div>
 
       <motion.div

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Moon, Sun, Droplets } from "lucide-react";
+import { X, Moon, Sun, Droplets, Pencil, Check } from "lucide-react";
 import { useDesktopStore } from "@/store/useDesktopStore";
 import type { WeatherData } from "@/types";
 
@@ -11,16 +11,38 @@ import type { WeatherData } from "@/types";
 function WeatherWidget() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
-  const { isDarkMode } = useDesktopStore();
+  const [editingCity, setEditingCity] = useState(false);
+  const [cityInput, setCityInput] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { isDarkMode, weatherCity, setWeatherCity } = useDesktopStore();
 
-  useEffect(() => {
-    fetch("/api/weather")
+  const fetchWeather = useCallback((city: string) => {
+    setLoading(true);
+    fetch(`/api/weather?city=${encodeURIComponent(city)}`)
       .then((r) => r.json())
       .then((d) => {
         if (!d.error) setWeather(d);
       })
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    fetchWeather(weatherCity);
+  }, [weatherCity, fetchWeather]);
+
+  const startEdit = () => {
+    setCityInput(weatherCity);
+    setEditingCity(true);
+    setTimeout(() => inputRef.current?.select(), 0);
+  };
+
+  const submitCity = () => {
+    const trimmed = cityInput.trim();
+    if (trimmed && trimmed !== weatherCity) {
+      setWeatherCity(trimmed);
+    }
+    setEditingCity(false);
+  };
 
   const surface = isDarkMode ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)";
   const border  = isDarkMode ? "rgba(255,255,255,0.1)"  : "rgba(0,0,0,0.08)";
@@ -47,19 +69,52 @@ function WeatherWidget() {
     >
       {/* City + icon row */}
       <div className="flex items-start justify-between">
-        <div>
+        <div className="flex-1 min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-widest mb-1"
                style={{ color: "var(--text-tertiary)" }}>
             Weather
           </div>
-          <div className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>
-            {weather.city}
-          </div>
+          {editingCity ? (
+            <form
+              onSubmit={(e) => { e.preventDefault(); submitCity(); }}
+              className="flex items-center gap-1"
+            >
+              <input
+                ref={inputRef}
+                value={cityInput}
+                onChange={(e) => setCityInput(e.target.value)}
+                onBlur={submitCity}
+                className="text-[14px] font-semibold rounded px-1.5 py-0.5 outline-none w-full"
+                style={{
+                  background: isDarkMode ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.07)",
+                  color: "var(--text-primary)",
+                  border: "1px solid var(--accent)",
+                }}
+                autoFocus
+              />
+              <button type="submit" style={{ color: "var(--accent)", flexShrink: 0 }}>
+                <Check size={14} strokeWidth={2.5} />
+              </button>
+            </form>
+          ) : (
+            <div className="flex items-center gap-1.5">
+              <div className="text-[15px] font-semibold" style={{ color: "var(--text-primary)" }}>
+                {weather.city}
+              </div>
+              <button
+                onClick={startEdit}
+                style={{ color: "var(--text-tertiary)" }}
+                title="Change city"
+              >
+                <Pencil size={11} strokeWidth={2} />
+              </button>
+            </div>
+          )}
           <div className="text-[13px]" style={{ color: "var(--text-secondary)" }}>
             {weather.condition}
           </div>
         </div>
-        <div className="text-[40px] leading-none select-none" aria-hidden>
+        <div className="text-[40px] leading-none select-none ml-2" aria-hidden>
           {getWeatherEmoji(weather.iconCode)}
         </div>
       </div>

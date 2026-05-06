@@ -15,7 +15,11 @@ import Launchpad from "./Launchpad";
  *
  * Also syncs isDarkMode → [data-theme] on <html> so CSS design tokens respond.
  */
-export default function DesktopShell() {
+interface DesktopShellProps {
+  onShutdown: () => void;
+}
+
+export default function DesktopShell({ onShutdown }: DesktopShellProps) {
   const { isDarkMode, currentWallpaper, setSpotlightOpen } = useDesktopStore();
 
   // Keep <html data-theme> in sync with Zustand state
@@ -48,7 +52,7 @@ export default function DesktopShell() {
         transition: "background-image 0.5s ease",
       }}
     >
-      <MenuBar />
+      <MenuBar onShutdown={onShutdown} />
       <Desktop />
       <Dock />
       <NotificationCenter />
