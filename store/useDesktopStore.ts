@@ -46,14 +46,14 @@ interface DesktopStore {
 export const useDesktopStore = create<DesktopStore>()(
   persist(
     (set, get) => ({
-      isDarkMode: false,
-      currentWallpaper: WALLPAPERS[0],
+      isDarkMode: true,
+      currentWallpaper: WALLPAPERS[1],
       openApps: [],
       isMuted: false,
       isSpotlightOpen: false,
       isLaunchpadOpen: false,
       isNotificationCenterOpen: false,
-      isSpidermanVisible: true,
+      isSpidermanVisible: false,
       weatherCity: "Mumbai",
 
       toggleDarkMode: () =>
@@ -86,7 +86,7 @@ export const useDesktopStore = create<DesktopStore>()(
     }),
     {
       name: "desktop-store",
-      version: 2, // bump to clear cached gradient wallpapers
+      version: 3, // dark mode default + spiderman hidden
     }
   )
 );
