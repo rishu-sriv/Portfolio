@@ -12,7 +12,6 @@ export default function Home() {
   const isMobile = useMediaQuery("(max-width: 767px)");
 
   useEffect(() => {
-    // Always show boot screen on every page load / refresh
     setMounted(true);
   }, []);
 
@@ -22,5 +21,9 @@ export default function Home() {
     return <BootScreen onComplete={() => setBooted(true)} />;
   }
 
-  return isMobile ? <MobilePortfolio /> : <DesktopShell />;
+  return isMobile ? (
+    <MobilePortfolio />
+  ) : (
+    <DesktopShell onShutdown={() => setBooted(false)} />
+  );
 }

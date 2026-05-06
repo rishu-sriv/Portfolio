@@ -14,9 +14,7 @@ import {
   Globe,
   FolderOpen,
   Layers,
-  Server,
   GitMerge,
-  Code2,
 } from "lucide-react";
 import { useDesktopStore } from "@/store/useDesktopStore";
 import { PROJECTS, type Project } from "@/lib/projects";
@@ -39,19 +37,34 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
 // ─── Tech tag colours (maps first matching keyword) ──────────────────────────
 
 const TAG_COLORS: { key: string; bg: string; color: string }[] = [
-  { key: "React",      bg: "rgba(97,218,251,0.15)",  color: "#61DAFB" },
+  // AI / ML
+  { key: "RAG",        bg: "rgba(167,139,250,0.18)",  color: "#a78bfa" },
+  { key: "LLM",        bg: "rgba(167,139,250,0.18)",  color: "#a78bfa" },
+  { key: "Qdrant",     bg: "rgba(77,124,255,0.18)",   color: "#4d7cff" },
+  { key: "LangChain",  bg: "rgba(16,185,129,0.15)",   color: "#10b981" },
+  { key: "Agentic",    bg: "rgba(167,139,250,0.15)",  color: "#a78bfa" },
+  // Backend
+  { key: "FastAPI",    bg: "rgba(0,150,136,0.15)",    color: "#009688" },
+  { key: "Flask",      bg: "rgba(100,100,100,0.18)",  color: "#aaa"   },
+  { key: "Celery",     bg: "rgba(55,178,77,0.15)",    color: "#37b24d" },
+  { key: "TimescaleDB",bg: "rgba(255,103,0,0.15)",    color: "#ff6700" },
+  { key: "Postgres",   bg: "rgba(51,103,145,0.18)",   color: "#336791" },
+  { key: "Redis",      bg: "rgba(220,56,45,0.15)",    color: "#DC382D" },
+  { key: "MongoDB",    bg: "rgba(71,162,72,0.15)",    color: "#47A248" },
+  { key: "WebRTC",     bg: "rgba(37,99,235,0.15)",    color: "#3b82f6" },
+  { key: "Socket",     bg: "rgba(37,99,235,0.15)",    color: "#3b82f6" },
+  // Frontend
+  { key: "React",      bg: "rgba(97,218,251,0.15)",   color: "#61DAFB" },
   { key: "Next",       bg: "rgba(255,255,255,0.1)",   color: "#aaa"   },
   { key: "TypeScript", bg: "rgba(49,120,198,0.18)",   color: "#3178C6" },
   { key: "Tailwind",   bg: "rgba(56,189,248,0.15)",   color: "#38BDF8" },
-  { key: "Node",       bg: "rgba(104,160,99,0.18)",   color: "#68A063" },
-  { key: "Postgres",   bg: "rgba(51,103,145,0.18)",   color: "#336791" },
-  { key: "Python",     bg: "rgba(255,212,59,0.15)",   color: "#FFD43B" },
-  { key: "Docker",     bg: "rgba(36,150,237,0.15)",   color: "#2496ED" },
-  { key: "Redis",      bg: "rgba(220,56,45,0.15)",    color: "#DC382D" },
   { key: "Framer",     bg: "rgba(255,92,147,0.15)",   color: "#ff5c93" },
+  // Languages & tools
+  { key: "Python",     bg: "rgba(255,212,59,0.15)",   color: "#FFD43B" },
+  { key: "Node",       bg: "rgba(104,160,99,0.18)",   color: "#68A063" },
+  { key: "Docker",     bg: "rgba(36,150,237,0.15)",   color: "#2496ED" },
   { key: "Zustand",    bg: "rgba(255,165,0,0.15)",    color: "#ffa500" },
   { key: "Vercel",     bg: "rgba(255,255,255,0.08)",  color: "#ccc"   },
-  { key: "Socket",     bg: "rgba(37,99,235,0.15)",    color: "#3b82f6" },
   { key: "Rollup",     bg: "rgba(255,62,0,0.15)",     color: "#ff3e00" },
   { key: "Recharts",   bg: "rgba(136,132,216,0.18)",  color: "#8884d8" },
 ];

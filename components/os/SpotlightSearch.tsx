@@ -40,9 +40,11 @@ interface ResultCategory {
 // ── Static search data ────────────────────────────────────────────────────────
 
 const SKILLS = [
-  "React", "Next.js", "TypeScript", "JavaScript", "Node.js",
-  "Tailwind CSS", "Framer Motion", "PostgreSQL", "MongoDB", "Docker",
-  "Python", "GraphQL", "Redis", "AWS", "Git",
+  "LLMs / RAG Pipelines", "Vector Databases", "Qdrant", "LangChain", "Statistical Analysis",
+  "Python", "FastAPI", "Flask", "Redis", "Celery",
+  "PostgreSQL", "TimescaleDB", "Node.js", "WebRTC", "MongoDB",
+  "React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion",
+  "Docker", "Git", "Agentic Workflows",
 ];
 
 const SOCIAL_LINKS = [

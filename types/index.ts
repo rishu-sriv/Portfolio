@@ -66,6 +66,7 @@ export interface Comment {
   name: string;
   message: string;
   avatar: string;
+  inkColor?: string | null;
   createdAt: string;
 }
 
