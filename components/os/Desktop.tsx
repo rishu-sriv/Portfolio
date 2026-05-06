@@ -9,6 +9,7 @@ import FinderWindow from "@/components/windows/FinderWindow";
 import TerminalWindow from "@/components/windows/TerminalWindow";
 import SafariWindow from "@/components/windows/SafariWindow";
 import GuestbookWindow from "@/components/windows/GuestbookWindow";
+import SpotifyWindow from "@/components/windows/SpotifyWindow";
 import type { AppId } from "@/types";
 
 // ─── App metadata registry ────────────────────────────────────────────────────
@@ -71,6 +72,13 @@ const APP_META: Record<
     defaultPosition: { x: 300, y: 200 },
     defaultSize: { width: 680, height: 440 },
     minSize: { width: 400, height: 300 },
+  },
+  spotify: {
+    title: "Spotify",
+    icon: "/icons/spotify.jpg",
+    defaultPosition: { x: 140, y: 60 },
+    defaultSize: { width: 900, height: 580 },
+    minSize: { width: 640, height: 420 },
   },
 };
 
@@ -227,6 +235,7 @@ export default function Desktop() {
              id === "terminal"  ? <TerminalWindow />  :
              id === "safari"    ? <SafariWindow />    :
              id === "guestbook" ? <GuestbookWindow /> :
+             id === "spotify"   ? <SpotifyWindow />   :
              <AppPlaceholder id={id} />}
           </Window>
         );

@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import { useWindowStore } from "@/store/useWindowStore";
 import { useDesktopStore } from "@/store/useDesktopStore";
+import { useSound } from "@/hooks/useSound";
 import type { AppId } from "@/types";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -48,6 +49,8 @@ export default function Window({
   const { windows, focusedWindowId, focusWindow, updatePosition, maximizeWindow } =
     useWindowStore();
   const { isDarkMode } = useDesktopStore();
+  const playOpen  = useSound("window-open");
+  const playClose = useSound("window-close");
 
   const win        = windows[id];
   const isFocused  = focusedWindowId === id;
@@ -88,6 +91,7 @@ export default function Window({
     if (!wasVisibleRef.current && isVisible) {
       animate(opMV, 1, { duration: 0.18, ease: "easeOut" });
       animate(scMV, 1, { type: "spring", stiffness: 340, damping: 26 });
+      playOpen();
     }
 
     wasVisibleRef.current = isVisible;
@@ -229,7 +233,7 @@ export default function Window({
       >
         <TrafficLights
           isFocused={isFocused}
-          onClose={onClose}
+          onClose={() => { playClose(); onClose(); }}
           onMinimize={handleMinimize}
           onMaximize={() => maximizeWindow(id)}
         />

@@ -68,6 +68,8 @@ const LAUNCHPAD_APPS: LaunchpadApp[] = [
     Icon: BookOpen,
     bg: "linear-gradient(145deg,#9c27b0,#6a1b9a)",
     color: "#fff",
+    iconLight: "/icons/message.jpg",
+    iconDark: "/icons/message.jpg",
   },
 ];
 

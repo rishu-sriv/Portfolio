@@ -7,7 +7,8 @@ export type AppId =
   | "about"
   | "guestbook"
   | "launchpad"
-  | "spotlight";
+  | "spotlight"
+  | "spotify";
 
 export interface AppConfig {
   id: AppId;

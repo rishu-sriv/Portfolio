@@ -68,7 +68,7 @@ function SlideIntro({ dark }: { dark: boolean }) {
           className="text-lg font-medium"
           style={{ color: "var(--accent)" }}
         >
-          Full-Stack Developer &amp; UI Enthusiast
+          Full-Stack Developer &amp; AI Automation Engineer
         </p>
       </div>
 
@@ -77,13 +77,13 @@ function SlideIntro({ dark }: { dark: boolean }) {
         className="text-base max-w-md leading-relaxed"
         style={{ color: "var(--text-secondary)" }}
       >
-        I build thoughtful, high-performance web experiences — from pixel-perfect
-        UIs to resilient backend APIs.
+        I am a B.Tech CSE undergraduate at VIT building scalable web and AI-driven products
+        with a focus on performance, accessibility, and automation-led workflows.
       </p>
 
       {/* Tags */}
       <div className="flex flex-wrap justify-center gap-2">
-        {["React", "TypeScript", "Next.js", "Node.js"].map((tag) => (
+        {["React", "FastAPI", "TypeScript", "AI Automation"].map((tag) => (
           <span
             key={tag}
             className="px-3 py-1 rounded-full text-sm font-medium"
@@ -254,25 +254,32 @@ function Timeline({
 
 const EXPERIENCE: TimelineEntry[] = [
   {
-    title: "Software Engineer",
-    subtitle: "Acme Corp",
-    period: "2023 – Present",
+    title: "Full Stack Developer & AI Automation Engineer (Intern)",
+    subtitle: "Niti AI",
+    period: "Dec 2025 – Present",
     detail:
-      "Built and maintained scalable React + Node.js applications serving 200k+ users. Led migration to TypeScript across the frontend codebase.",
+      "Contributing to full-stack product delivery and AI automation workflows in an on-site engineering environment.",
   },
   {
-    title: "Frontend Developer",
-    subtitle: "Startup Studio",
-    period: "2021 – 2023",
+    title: "Artificial Intelligence Intern",
+    subtitle: "Moonkind",
+    period: "Jun 2025 – Jul 2025",
     detail:
-      "Developed component libraries and design systems with React & Storybook. Collaborated closely with design to ship pixel-perfect UIs.",
+      "Researched multi-agent AI optimizations to improve orchestration efficiency by 15%, proposed 5+ automation workflows, and authored 15+ technical docs that reduced onboarding time by 20%.",
   },
   {
-    title: "Software Intern",
-    subtitle: "TechCo Labs",
-    period: "Summer 2020",
+    title: "Software Engineer Intern",
+    subtitle: "Symphony Talent",
+    period: "May 2025 – Jun 2025",
     detail:
-      "Contributed to REST API development with Python/FastAPI. Built internal dashboards with React.",
+      "Improved career portal accessibility by 25% for 10K+ monthly users, reduced CRM sync issues by 40% with backend integrations, raised test coverage to 85%, and cut deployment time by 30% via CI/CD automation.",
+  },
+  {
+    title: "Frontend Developer (Intern)",
+    subtitle: "Aarvasa",
+    period: "Feb 2025 – Apr 2025",
+    detail:
+      "Built responsive React interfaces, improved performance with 30% faster load times, and helped deliver sprint features ahead of schedule with cross-functional Agile collaboration.",
   },
 ];
 
@@ -296,24 +303,11 @@ function SlideExperience({ dark }: { dark: boolean }) {
 
 const EDUCATION: TimelineEntry[] = [
   {
-    title: "B.Tech, Computer Science",
-    subtitle: "National Institute of Technology",
-    period: "2017 – 2021",
+    title: "Bachelor of Technology (B.Tech), Computer Science",
+    subtitle: "Vellore Institute of Technology (VIT)",
+    period: "2022 – 2026",
     detail:
-      "Graduated with distinction. Focused on algorithms, distributed systems, and human-computer interaction.",
-  },
-  {
-    title: "AWS Certified Solutions Architect",
-    subtitle: "Amazon Web Services",
-    period: "2022",
-    detail: "Associate-level certification covering cloud architecture best practices.",
-  },
-  {
-    title: "Full-Stack Web Development",
-    subtitle: "The Odin Project",
-    period: "2019 – 2020",
-    detail:
-      "Completed the full curriculum including Ruby on Rails, JavaScript, React, and databases.",
+      "Coursework and project experience across software engineering, full-stack web development, AI systems, and applied algorithms.",
   },
 ];
 

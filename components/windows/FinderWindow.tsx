@@ -33,8 +33,6 @@ interface SidebarItem {
 const SIDEBAR_ITEMS: SidebarItem[] = [
   { label: "All Projects",  category: "all",         Icon: FolderOpen },
   { label: "Full Stack",    category: "fullstack",    Icon: Layers     },
-  { label: "Frontend",      category: "frontend",     Icon: Code2      },
-  { label: "Backend",       category: "backend",      Icon: Server     },
   { label: "Open Source",   category: "open-source",  Icon: GitMerge   },
 ];
 
