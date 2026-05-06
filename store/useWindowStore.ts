@@ -43,14 +43,40 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
     const { zCounter, windows } = get();
     const next = zCounter + 1;
     const existing = windows[id];
+
+    // Always open About with a centered "focus mode" frame:
+    // 90% occupied area => 5% gap from each viewport edge.
+    const aboutConfig: WindowOpenConfig | undefined =
+      id === "about" && typeof window !== "undefined"
+        ? {
+            ...config,
+            defaultPosition: {
+              x: Math.round(window.innerWidth * 0.05),
+              y: Math.round(window.innerHeight * 0.05),
+            },
+            defaultSize: {
+              width: Math.round(window.innerWidth * 0.9),
+              height: Math.round(window.innerHeight * 0.9),
+            },
+          }
+        : config;
+
+    const shouldResetAbout = id === "about";
     set({
       zCounter: next,
       focusedWindowId: id,
       windows: {
         ...windows,
         [id]: existing
-          ? { ...existing, isOpen: true, isMinimized: false, zIndex: next }
-          : { ...defaultWindowState(id, config), isOpen: true, zIndex: next },
+          ? {
+              ...(shouldResetAbout
+                ? defaultWindowState(id, aboutConfig)
+                : existing),
+              isOpen: true,
+              isMinimized: false,
+              zIndex: next,
+            }
+          : { ...defaultWindowState(id, aboutConfig), isOpen: true, zIndex: next },
       },
     });
   },

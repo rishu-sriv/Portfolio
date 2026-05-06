@@ -41,7 +41,7 @@ const TEXT_COLOR = "rgba(255,255,255,0.9)";
 export default function MenuBar() {
   const [time, setTime] = useState<string>("");
   const [date, setDate] = useState<string>("");
-  const { isDarkMode, toggleDarkMode, isNotificationCenterOpen, setNotificationCenterOpen } =
+  const { isDarkMode, toggleDarkMode, isNotificationCenterOpen, setNotificationCenterOpen, isSpidermanVisible } =
     useDesktopStore();
   const { isMuted, toggleMute } = useSoundStore();
 
@@ -114,6 +114,8 @@ export default function MenuBar() {
               transformOrigin: "top center",
               animation: "spidey-sway-2d 2.4s ease-in-out infinite alternate",
               zIndex: 1,
+              opacity: isSpidermanVisible ? 1 : 0,
+              transition: "opacity 500ms steps(10, end)",
             }}
           >
             <img

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sameer Resume</title>
+    <style>
+      :root {
+        --bg: #f3f4f6;
+        --card: rgba(255, 255, 255, 0.84);
+        --text: #111827;
+        --sub: #4b5563;
+        --accent: #0a4f90;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(180deg, #eaf2ff 0%, var(--bg) 42%);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 40px auto;
+        padding: 0 20px 28px;
+      }
+      .card {
+        background: var(--card);
+        backdrop-filter: blur(18px);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+        box-shadow: 0 12px 34px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: 170px 1fr;
+        gap: 20px;
+        padding: 24px;
+        align-items: center;
+      }
+      .hero img {
+        width: 160px;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 18px;
+        border: 1px solid rgba(0,0,0,0.09);
+      }
+      h1 {
+        margin: 0;
+        font-size: 42px;
+        line-height: 1.02;
+        color: var(--accent);
+      }
+      .role {
+        margin-top: 4px;
+        font-size: 21px;
+        color: #1f2937;
+        font-weight: 600;
+      }
+      .quote {
+        margin-top: 10px;
+        color: var(--sub);
+        font-size: 15px;
+      }
+      .section {
+        padding: 18px 24px;
+        border-top: 1px solid rgba(0,0,0,0.08);
+      }
+      .title {
+        margin: 0 0 10px;
+        font-size: 20px;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      p { margin: 0; line-height: 1.65; color: #1f2937; }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 14px;
+      }
+      .pill {
+        background: rgba(10,79,144,0.08);
+        border: 1px solid rgba(10,79,144,0.2);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: #0f2f52;
+        font-weight: 600;
+      }
+      .focus-list li { margin-bottom: 6px; }
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        text-decoration: none;
+        background: var(--accent);
+        color: white;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 700;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <article class="card">
+        <section class="hero">
+          <img src="../public/icons/about-me.jpg" alt="Sameer Srivastava" />
+          <div>
+            <h1>Sameer Srivastava</h1>
+            <div class="role">Developer / Automation Builder</div>
+            <div class="quote">"Building things that work so you don't have to."</div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="title">About Me</h2>
+          <p>
+            Most of my projects are private for product/client reasons, but the work is real:
+            I build intuitive web tools, robust automation workflows, and AI-first systems for
+            finance and document intelligence. My day-to-day stack centers on Python, FastAPI,
+            RAG workflows, and production-minded backend design.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2 class="title">Skills</h2>
+          <div class="grid">
+            <div class="pill">Python</div>
+            <div class="pill">JavaScript</div>
+            <div class="pill">TypeScript</div>
+            <div class="pill">SQL</div>
+            <div class="pill">HTML/CSS</div>
+            <div class="pill">Automation</div>
+            <div class="pill">Linux scripting</div>
+            <div class="pill">AI tools</div>
+            <div class="pill">RAG / Agentic AI</div>
+            <div class="pill">HR / workflow automation</div>
+            <div class="pill">FastAPI / Flask</div>
+            <div class="pill">MongoDB / MySQL / SQLite</div>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2 class="title">Main Focus Areas</h2>
+          <ul class="focus-list">
+            <li>Web tools</li>
+            <li>Automation</li>
+            <li>HR systems</li>
+            <li>Python utilities</li>
+            <li>Experimental UI</li>
+            <li>Security tools</li>
+          </ul>
+        </section>
+
+        <section class="section footer">
+          <div>
+            <strong>Sameer Srivastava</strong><br />
+            <span style="color:#4b5563">Developer &amp; Automation Builder</span>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <a class="btn" href="https://github.com/rishu-sriv" target="_blank" rel="noopener noreferrer">View Projects</a>
+            <a class="btn" href="mailto:rishupayne04@gmail.com">Contact Me</a>
+          </div>
+        </section>
+      </article>
+    </main>
+  </body>
+  </html>

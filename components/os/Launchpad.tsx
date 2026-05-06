@@ -6,6 +6,7 @@ import {
   Folder,
   Globe,
   Terminal,
+  Calculator,
   Fingerprint,
   BookOpen,
   Search,
@@ -56,11 +57,22 @@ const LAUNCHPAD_APPS: LaunchpadApp[] = [
     iconDark: "/icons/terminal.jpg",
   },
   {
+    id: "calculator",
+    name: "Calculator",
+    Icon: Calculator,
+    bg: "linear-gradient(145deg,#f59e0b,#d97706)",
+    color: "#fff",
+    iconLight: "/icons/calculator.jpg",
+    iconDark: "/icons/calculator.jpg",
+  },
+  {
     id: "about",
     name: "About Me",
     Icon: Fingerprint,
     bg: "linear-gradient(145deg,#a855f7,#6d28d9)",
     color: "#fff",
+    iconLight: "/icons/about-me.jpg",
+    iconDark: "/icons/about-me.jpg",
   },
   {
     id: "guestbook",
@@ -77,6 +89,7 @@ const APP_DEFAULTS: Partial<Record<AppId, { defaultPosition: { x: number; y: num
   finder:    { defaultPosition: { x: 80,  y: 48  }, defaultSize: { width: 860, height: 540 } },
   safari:    { defaultPosition: { x: 100, y: 60  }, defaultSize: { width: 960, height: 600 } },
   terminal:  { defaultPosition: { x: 120, y: 80  }, defaultSize: { width: 720, height: 460 } },
+  calculator:{ defaultPosition: { x: 180, y: 88  }, defaultSize: { width: 360, height: 520 } },
   about:     { defaultPosition: { x: 160, y: 60  }, defaultSize: { width: 860, height: 580 } },
   guestbook: { defaultPosition: { x: 160, y: 100 }, defaultSize: { width: 680, height: 500 } },
 };
