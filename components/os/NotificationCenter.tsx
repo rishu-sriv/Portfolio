@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Moon, Sun, Droplets, Wind } from "lucide-react";
+import { X, Moon, Sun, Droplets } from "lucide-react";
 import { useDesktopStore } from "@/store/useDesktopStore";
 import type { WeatherData } from "@/types";
 

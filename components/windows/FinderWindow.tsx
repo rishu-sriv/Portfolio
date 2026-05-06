@@ -67,6 +67,7 @@ function tagStyle(tag: string) {
 
 // ─── Placeholder thumbnail ────────────────────────────────────────────────────
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ProjectThumbnail({ project, dark }: { project: Project; dark: boolean }) {
   const gradient = useMemo(() => {
     const palettes: [string, string][] = [
@@ -307,6 +308,7 @@ function ActionBtn({
   label,
   href,
   onClick,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   dark,
   accent = false,
 }: {

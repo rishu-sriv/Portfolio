@@ -4,23 +4,6 @@ import type { WeatherData } from "@/types";
 // Revalidate cached response every 10 minutes
 export const revalidate = 600;
 
-const ICON_MAP: Record<string, string> = {
-  "01": "☀️",
-  "02": "⛅",
-  "03": "☁️",
-  "04": "☁️",
-  "09": "🌧️",
-  "10": "🌦️",
-  "11": "⛈️",
-  "13": "❄️",
-  "50": "🌫️",
-};
-
-function weatherEmoji(iconCode: string): string {
-  const prefix = iconCode.slice(0, 2);
-  return ICON_MAP[prefix] ?? "🌤️";
-}
-
 export async function GET() {
   const apiKey = process.env.OPENWEATHER_API_KEY;
   const city   = process.env.WEATHER_CITY ?? "Mumbai";
