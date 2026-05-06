@@ -6,6 +6,9 @@ import { useWindowStore } from "@/store/useWindowStore";
 import Window from "@/components/windows/Window";
 import AboutWindow from "@/components/windows/AboutWindow";
 import FinderWindow from "@/components/windows/FinderWindow";
+import TerminalWindow from "@/components/windows/TerminalWindow";
+import SafariWindow from "@/components/windows/SafariWindow";
+import GuestbookWindow from "@/components/windows/GuestbookWindow";
 import type { AppId } from "@/types";
 
 // ─── App metadata registry ────────────────────────────────────────────────────
@@ -219,8 +222,11 @@ export default function Desktop() {
             onClose={() => closeWindow(id)}
             onMinimize={() => minimizeWindow(id)}
           >
-            {id === "about"   ? <AboutWindow />   :
-             id === "finder"  ? <FinderWindow />  :
+            {id === "about"    ? <AboutWindow />    :
+             id === "finder"   ? <FinderWindow />   :
+             id === "terminal"  ? <TerminalWindow />  :
+             id === "safari"    ? <SafariWindow />    :
+             id === "guestbook" ? <GuestbookWindow /> :
              <AppPlaceholder id={id} />}
           </Window>
         );

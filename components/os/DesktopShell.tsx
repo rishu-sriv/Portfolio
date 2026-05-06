@@ -5,6 +5,7 @@ import { useDesktopStore } from "@/store/useDesktopStore";
 import MenuBar from "./MenuBar";
 import Desktop from "./Desktop";
 import Dock from "./Dock";
+import NotificationCenter from "./NotificationCenter";
 
 /**
  * DesktopShell — top-level OS chrome that composes the three fixed layers:
@@ -23,18 +24,24 @@ export default function DesktopShell() {
     );
   }, [isDarkMode]);
 
+  const wallpaper = isDarkMode
+    ? "url('/wallpaper-dark.jpg')"
+    : "url('/wallpaper-light.jpg')";
+
   return (
     <div
       className="fixed inset-0 overflow-hidden"
       style={{
-        backgroundImage: "url('/wallpaper.jpg')",
+        backgroundImage: wallpaper,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        transition: "background-image 0.4s ease",
       }}
     >
       <MenuBar />
       <Desktop />
       <Dock />
+      <NotificationCenter />
     </div>
   );
 }
