@@ -3,10 +3,10 @@ import { persist } from "zustand/middleware";
 import type { AppId } from "@/types";
 
 export const WALLPAPERS: string[] = [
-  // macOS Sonoma — warm rose aurora (default, matches screenshot)
-  "radial-gradient(ellipse at 28% 65%, #b84dbe 0%, transparent 52%), radial-gradient(ellipse at 68% 35%, #e8607a 0%, transparent 52%), radial-gradient(ellipse at 88% 62%, #5b82d0 0%, transparent 50%), linear-gradient(150deg, #a050b8 0%, #d05888 45%, #6088c8 100%)",
-  // macOS Sonoma dark nebula
-  "linear-gradient(160deg, #0a0a1a 0%, #1a1a3e 35%, #0f3460 65%, #533483 100%)",
+  // macOS Sonoma — light (green/pink/blue waves)
+  "url('/wallpaper-light.jpg')",
+  // macOS Sequoia — dark (purple/pink canyon)
+  "url('/wallpaper-dark.jpg')",
   // Ocean sunrise
   "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
   // Purple haze
@@ -51,7 +51,11 @@ export const useDesktopStore = create<DesktopStore>()(
       isNotificationCenterOpen: false,
 
       toggleDarkMode: () =>
-        set((state) => ({ isDarkMode: !state.isDarkMode })),
+        set((state) => ({
+          isDarkMode: !state.isDarkMode,
+          // Switch to the matching theme wallpaper automatically
+          currentWallpaper: !state.isDarkMode ? WALLPAPERS[1] : WALLPAPERS[0],
+        })),
       setWallpaper: (url) => set({ currentWallpaper: url }),
       cycleWallpaper: () => {
         const current = get().currentWallpaper;
@@ -71,6 +75,9 @@ export const useDesktopStore = create<DesktopStore>()(
       setNotificationCenterOpen: (open) =>
         set({ isNotificationCenterOpen: open }),
     }),
-    { name: "desktop-store" }
+    {
+      name: "desktop-store",
+      version: 2, // bump to clear cached gradient wallpapers
+    }
   )
 );

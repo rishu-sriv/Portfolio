@@ -308,16 +308,7 @@ function MinimizedWindowTab({ id, mouseX }: MinimizedWindowTabProps) {
   const [tooltip, setTooltip] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const win     = windows[id];
-  const meta    = APP_META[id];
-  if (!win || !meta) return null;
-
-  // Derive thumbnail dimensions from the real window's aspect ratio
-  const aspect  = win.size.width / win.size.height;
-  const thumbH  = BASE_SIZE;                                   // 52 px — matches other icons
-  const thumbW  = Math.max(58, Math.min(92, Math.round(thumbH * aspect)));
-
-  // Proximity-based magnification (same math as DockIcon)
+  // Hooks must always be called before any early return
   const distance = useTransform(mouseX, (val: number) => {
     const bounds = ref.current?.getBoundingClientRect();
     if (!bounds || val === Infinity) return Infinity;
@@ -328,9 +319,18 @@ function MinimizedWindowTab({ id, mouseX }: MinimizedWindowTabProps) {
     const abs = Math.abs(d);
     if (abs >= MAGNIFY_RADIUS) return 1;
     const t = (1 - abs / MAGNIFY_RADIUS) ** 1.6;
-    return 1 + (HOVER_SCALE - 1) * t * 0.65; // slightly less than icons
+    return 1 + (HOVER_SCALE - 1) * t * 0.65;
   });
   const scale = useSpring(scaleT, { mass: 0.08, stiffness: 180, damping: 14 });
+
+  const win  = windows[id];
+  const meta = APP_META[id];
+  if (!win || !meta) return null;
+
+  // Derive thumbnail dimensions from the real window's aspect ratio
+  const aspect = win.size.width / win.size.height;
+  const thumbH = BASE_SIZE;
+  const thumbW = Math.max(58, Math.min(92, Math.round(thumbH * aspect)));
 
   const TITLEBAR_H  = 13;
   const titlebarBg  = isDarkMode ? "#2e2e30" : meta.titlebarBg;
@@ -493,8 +493,8 @@ const APP_DEFAULTS: Partial<Record<AppId, { defaultPosition: { x: number; y: num
 // ── Dock ──────────────────────────────────────────────────────────────────────
 
 export default function Dock() {
-  const { openApps, openApp }     = useDesktopStore();
-  const { windows, openWindow, restoreWindow } = useWindowStore();
+  const { openApp, setLaunchpadOpen, setSpotlightOpen } = useDesktopStore();
+  const { windows, openWindow } = useWindowStore();
   const mouseX = useMotionValue(Infinity);
 
   // Windows that are currently minimized
@@ -535,12 +535,29 @@ export default function Dock() {
               isActive={isActive}
               onClick={() => {
                 if (!app.isApp) return;
+                if (id === "launchpad") {
+                  setLaunchpadOpen(true);
+                  return;
+                }
                 openApp(id);
                 openWindow(id, APP_DEFAULTS[id]);
               }}
             />
           );
         })}
+
+        {/* ── Spotlight search icon ───────────────────────────────────────── */}
+        <DockIcon
+          app={{
+            id: "spotlight-btn",
+            name: "Spotlight",
+            Icon: Search,
+            bg: "linear-gradient(145deg,#607d8b,#37474f)",
+            color: "#ffffff",
+          }}
+          mouseX={mouseX}
+          onClick={() => setSpotlightOpen(true)}
+        />
 
         {/* ── Social links ───────────────────────────────────────────────── */}
         <Separator />
