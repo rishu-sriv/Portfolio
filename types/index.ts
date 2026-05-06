@@ -4,6 +4,7 @@ export type AppId =
   | "finder"
   | "terminal"
   | "safari"
+  | "calculator"
   | "about"
   | "guestbook"
   | "launchpad"

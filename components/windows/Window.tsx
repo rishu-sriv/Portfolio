@@ -23,7 +23,6 @@ const SPRING = { type: "spring" as const, stiffness: 320, damping: 30 };
 export interface WindowProps {
   id: AppId;
   title: string;
-  icon: string;
   defaultPosition: { x: number; y: number };
   defaultSize: { width: number; height: number };
   minSize: { width: number; height: number };
@@ -37,7 +36,6 @@ export interface WindowProps {
 export default function Window({
   id,
   title,
-  icon,
   defaultPosition,
   defaultSize,
   minSize,
@@ -238,10 +236,7 @@ export default function Window({
           onMaximize={() => maximizeWindow(id)}
         />
 
-        <div className="absolute inset-0 flex items-center justify-center gap-[5px] pointer-events-none px-[80px]">
-          {icon && (
-            <img src={icon} alt="" className="w-[14px] h-[14px] object-contain flex-shrink-0" />
-          )}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none px-[80px]">
           <span
             className="text-[12px] font-semibold truncate"
             style={{

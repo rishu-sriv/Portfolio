@@ -27,6 +27,7 @@ interface DesktopStore {
   isSpotlightOpen: boolean;
   isLaunchpadOpen: boolean;
   isNotificationCenterOpen: boolean;
+  isSpidermanVisible: boolean;
 
   toggleDarkMode: () => void;
   setWallpaper: (url: string) => void;
@@ -37,6 +38,7 @@ interface DesktopStore {
   setSpotlightOpen: (open: boolean) => void;
   setLaunchpadOpen: (open: boolean) => void;
   setNotificationCenterOpen: (open: boolean) => void;
+  toggleSpidermanVisible: () => void;
 }
 
 export const useDesktopStore = create<DesktopStore>()(
@@ -49,6 +51,7 @@ export const useDesktopStore = create<DesktopStore>()(
       isSpotlightOpen: false,
       isLaunchpadOpen: false,
       isNotificationCenterOpen: false,
+      isSpidermanVisible: true,
 
       toggleDarkMode: () =>
         set((state) => ({
@@ -74,6 +77,8 @@ export const useDesktopStore = create<DesktopStore>()(
       setLaunchpadOpen: (open) => set({ isLaunchpadOpen: open }),
       setNotificationCenterOpen: (open) =>
         set({ isNotificationCenterOpen: open }),
+      toggleSpidermanVisible: () =>
+        set((state) => ({ isSpidermanVisible: !state.isSpidermanVisible })),
     }),
     {
       name: "desktop-store",

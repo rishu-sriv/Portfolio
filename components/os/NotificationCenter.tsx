@@ -120,7 +120,14 @@ function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
 // ─── NotificationCenter ────────────────────────────────────────────────────────
 
 export default function NotificationCenter() {
-  const { isNotificationCenterOpen, setNotificationCenterOpen, isDarkMode, toggleDarkMode } =
+  const {
+    isNotificationCenterOpen,
+    setNotificationCenterOpen,
+    isDarkMode,
+    toggleDarkMode,
+    isSpidermanVisible,
+    toggleSpidermanVisible,
+  } =
     useDesktopStore();
 
   // Close on Escape
@@ -217,7 +224,7 @@ export default function NotificationCenter() {
               {/* ── Weather ─────────────────────────────────────────────── */}
               <WeatherWidget />
 
-              {/* ── Focus Mode (decorative) ──────────────────────────────── */}
+              {/* ── Spider-Man Toggle ───────────────────────────────────── */}
               <div
                 className="rounded-2xl px-4 py-3 flex items-center justify-between"
                 style={{
@@ -231,18 +238,18 @@ export default function NotificationCenter() {
                     style={{ background: isDarkMode ? "#2c2c2e" : "#e5e5ea" }}
                     aria-hidden
                   >
-                    🎯
+                    🕷️
                   </div>
                   <div>
                     <div className="text-[13px] font-medium" style={{ color: text }}>
-                      Focus
+                      Spider-Man
                     </div>
                     <div className="text-[11px]" style={{ color: "var(--text-tertiary)" }}>
-                      Do Not Disturb
+                      Show / Hide decoration
                     </div>
                   </div>
                 </div>
-                <Toggle on={false} onToggle={() => {}} />
+                <Toggle on={isSpidermanVisible} onToggle={toggleSpidermanVisible} />
               </div>
 
               {/* ── No notifications placeholder ─────────────────────────── */}

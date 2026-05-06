@@ -8,6 +8,7 @@ import AboutWindow from "@/components/windows/AboutWindow";
 import FinderWindow from "@/components/windows/FinderWindow";
 import TerminalWindow from "@/components/windows/TerminalWindow";
 import SafariWindow from "@/components/windows/SafariWindow";
+import CalculatorWindow from "@/components/windows/CalculatorWindow";
 import GuestbookWindow from "@/components/windows/GuestbookWindow";
 import SpotifyWindow from "@/components/windows/SpotifyWindow";
 import type { AppId } from "@/types";
@@ -45,12 +46,19 @@ const APP_META: Record<
     defaultSize: { width: 960, height: 600 },
     minSize: { width: 560, height: 360 },
   },
+  calculator: {
+    title: "Calculator",
+    icon: "/icons/calculator.jpg",
+    defaultPosition: { x: 180, y: 88 },
+    defaultSize: { width: 360, height: 520 },
+    minSize: { width: 300, height: 420 },
+  },
   about: {
     title: "About This Mac",
-    icon: "/icons/about.png",
+    icon: "/icons/about-me.jpg",
     defaultPosition: { x: 160, y: 60 },
     defaultSize: { width: 860, height: 580 },
-    minSize: { width: 640, height: 420 },
+    minSize: { width: 360, height: 260 },
   },
   guestbook: {
     title: "Guestbook",
@@ -222,7 +230,6 @@ export default function Desktop() {
             key={id}
             id={id}
             title={meta.title}
-            icon={meta.icon}
             defaultPosition={meta.defaultPosition}
             defaultSize={meta.defaultSize}
             minSize={meta.minSize}
@@ -234,6 +241,7 @@ export default function Desktop() {
              id === "finder"   ? <FinderWindow />   :
              id === "terminal"  ? <TerminalWindow />  :
              id === "safari"    ? <SafariWindow />    :
+             id === "calculator"? <CalculatorWindow /> :
              id === "guestbook" ? <GuestbookWindow /> :
              id === "spotify"   ? <SpotifyWindow />   :
              <AppPlaceholder id={id} />}

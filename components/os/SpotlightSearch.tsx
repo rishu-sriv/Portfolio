@@ -7,6 +7,7 @@ import {
   Folder,
   Globe,
   Terminal,
+  Calculator,
   Fingerprint,
   BookOpen,
   LayoutGrid,
@@ -55,6 +56,7 @@ const APP_DEFAULTS: Partial<Record<AppId, { defaultPosition: { x: number; y: num
   finder:    { defaultPosition: { x: 80,  y: 48  }, defaultSize: { width: 860, height: 540 } },
   terminal:  { defaultPosition: { x: 120, y: 80  }, defaultSize: { width: 720, height: 460 } },
   safari:    { defaultPosition: { x: 100, y: 60  }, defaultSize: { width: 960, height: 600 } },
+  calculator:{ defaultPosition: { x: 180, y: 88  }, defaultSize: { width: 360, height: 520 } },
   about:     { defaultPosition: { x: 160, y: 60  }, defaultSize: { width: 860, height: 580 } },
   guestbook: { defaultPosition: { x: 160, y: 100 }, defaultSize: { width: 680, height: 500 } },
 };
@@ -94,6 +96,7 @@ export default function SpotlightSearch() {
         { id: "finder",    name: "Finder",    Icon: Folder,      action: () => { openWindow("finder",    APP_DEFAULTS.finder);    close(); } },
         { id: "safari",    name: "Safari",    Icon: Globe,       action: () => { openWindow("safari",    APP_DEFAULTS.safari);    close(); } },
         { id: "terminal",  name: "Terminal",  Icon: Terminal,    action: () => { openWindow("terminal",  APP_DEFAULTS.terminal);  close(); } },
+        { id: "calculator",name: "Calculator",Icon: Calculator,  action: () => { openWindow("calculator",APP_DEFAULTS.calculator); close(); } },
         { id: "about",     name: "About Me",  Icon: Fingerprint, action: () => { openWindow("about",     APP_DEFAULTS.about);     close(); } },
         { id: "guestbook", name: "Guestbook", Icon: BookOpen,    action: () => { openWindow("guestbook", APP_DEFAULTS.guestbook); close(); } },
         { id: "launchpad", name: "Launchpad", Icon: LayoutGrid,  action: () => { close(); setTimeout(() => setLaunchpadOpen(true), 120); } },

@@ -46,14 +46,15 @@ function SlideIntro({ dark }: { dark: boolean }) {
     <div className="flex flex-col items-center justify-center h-full gap-6 px-10 py-8 text-center">
       {/* Avatar */}
       <div
-        className="w-24 h-24 rounded-full flex items-center justify-center text-4xl font-bold select-none flex-shrink-0"
-        style={{
-          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          boxShadow: "0 8px 32px rgba(102,126,234,0.4)",
-          color: "#fff",
-        }}
+        className="w-24 h-24 rounded-full overflow-hidden flex-shrink-0"
+        style={{ boxShadow: "0 8px 28px rgba(0,0,0,0.26)" }}
       >
-        RS
+        <img
+          src="/profile/sameer-about.png"
+          alt="Sameer Srivastava"
+          draggable={false}
+          className="w-full h-full object-cover select-none"
+        />
       </div>
 
       {/* Name */}
@@ -62,28 +63,51 @@ function SlideIntro({ dark }: { dark: boolean }) {
           className="text-4xl font-bold tracking-tight"
           style={{ color: "var(--text-primary)" }}
         >
-          Rishu Srivastava
+          Sameer Srivastava
         </h1>
         <p
           className="text-lg font-medium"
           style={{ color: "var(--accent)" }}
         >
-          Full-Stack Developer &amp; AI Automation Engineer
+          GenAI Engineer &amp; Full-Stack Developer
         </p>
       </div>
 
-      {/* One-liner */}
-      <p
-        className="text-base max-w-md leading-relaxed"
-        style={{ color: "var(--text-secondary)" }}
+      {/* About copy */}
+      <div
+        className="max-w-2xl rounded-2xl p-6 text-left"
+        style={{
+          background: dark
+            ? "linear-gradient(145deg, rgba(41,151,255,0.12), rgba(168,85,247,0.08))"
+            : "linear-gradient(145deg, rgba(0,113,227,0.08), rgba(168,85,247,0.06))",
+          border: `1px solid ${dark ? "rgba(120,180,255,0.25)" : "rgba(0,113,227,0.18)"}`,
+          boxShadow: dark
+            ? "0 14px 36px rgba(0,0,0,0.35), 0 0 0 1px rgba(120,180,255,0.12) inset"
+            : "0 12px 30px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,113,227,0.08) inset",
+        }}
       >
-        I am a B.Tech CSE undergraduate at VIT building scalable web and AI-driven products
-        with a focus on performance, accessibility, and automation-led workflows.
-      </p>
+        <p className="text-[16px] leading-relaxed font-medium" style={{ color: "var(--text-primary)" }}>
+          I build systems at the intersection of <span style={{ color: "var(--accent)", fontWeight: 800 }}>AI and finance</span> —
+          environments where the data is noisy, latency matters, and decisions have downstream consequences.
+        </p>
+        <p className="text-[15px] leading-relaxed mt-3" style={{ color: "var(--text-secondary)" }}>
+          Recently, that&apos;s meant building RAG systems over financial filings and research documents,
+          conversational interfaces for analyst workflows, and anomaly detection pipelines designed to surface unusual
+          market behavior from noisy streaming data.
+        </p>
+        <p className="text-[15px] leading-relaxed mt-3" style={{ color: "var(--text-secondary)" }}>
+          Underneath those systems, I focus heavily on reliability: async processing, event-driven services,
+          time-series storage, and WebSocket infrastructure that continues operating cleanly under failure conditions.
+        </p>
+        <p className="text-[15px] leading-relaxed mt-3" style={{ color: "var(--text-secondary)" }}>
+          Fintech is one of the few domains where both model quality and systems engineering matter simultaneously,
+          which is why it&apos;s where I want to keep building.
+        </p>
+      </div>
 
       {/* Tags */}
       <div className="flex flex-wrap justify-center gap-2">
-        {["React", "FastAPI", "TypeScript", "AI Automation"].map((tag) => (
+        {["Python", "RAG", "Agentic Workflows", "Qdrant", "FastAPI", "WebSockets", "Time-Series", "Fintech AI"].map((tag) => (
           <span
             key={tag}
             className="px-3 py-1 rounded-full text-sm font-medium"
@@ -108,19 +132,40 @@ function SlideIntro({ dark }: { dark: boolean }) {
 
 // ─── Slide 2 — Skills ─────────────────────────────────────────────────────────
 
-const SKILLS = [
-  { name: "React",       color: "#61DAFB", bg: "#20232a", abbr: "⚛" },
-  { name: "TypeScript",  color: "#3178C6", bg: "#1a2a3a", abbr: "TS" },
-  { name: "Next.js",     color: "#fff",    bg: "#111",    abbr: "N" },
-  { name: "Tailwind",    color: "#38BDF8", bg: "#0f172a", abbr: "~" },
-  { name: "Node.js",     color: "#68A063", bg: "#1a2a1a", abbr: "⬡" },
-  { name: "Python",      color: "#FFD43B", bg: "#1a1a2a", abbr: "Py" },
-  { name: "PostgreSQL",  color: "#336791", bg: "#1a1e2a", abbr: "PG" },
-  { name: "MongoDB",     color: "#47A248", bg: "#1a2a1a", abbr: "M" },
-  { name: "Docker",      color: "#2496ED", bg: "#0d1b2a", abbr: "🐳" },
-  { name: "Git",         color: "#F05032", bg: "#2a1a1a", abbr: "⎇" },
-  { name: "AWS",         color: "#FF9900", bg: "#1a1a0a", abbr: "☁" },
-  { name: "Redis",       color: "#DC382D", bg: "#2a0d0d", abbr: "R" },
+const CORE_LANGUAGES = [
+  { name: "Python", pct: 95 },
+  { name: "C++", pct: 85 },
+  { name: "SQL", pct: 80 },
+  { name: "TypeScript", pct: 92 },
+  { name: "JavaScript", pct: 90 },
+];
+
+const FRAMEWORKS_AND_LIBS = [
+  "React",
+  "Next.js",
+  "FastAPI",
+  "Tailwind CSS",
+  "Node.js",
+  "LangChain",
+  "Qdrant",
+];
+
+const TOOLS_AND_DATABASES = [
+  "Git & GitHub",
+  "Docker",
+  "MongoDB",
+  "PostgreSQL",
+  "AWS",
+  "Redis",
+];
+
+const FOCUS_AREAS = [
+  "Data Structures & Algorithms",
+  "Object-Oriented Programming",
+  "RESTful API Design",
+  "System Design",
+  "LLM Workflows",
+  "RCA & 5 Whys",
 ];
 
 function SlideSkills({ dark }: { dark: boolean }) {
@@ -130,37 +175,123 @@ function SlideSkills({ dark }: { dark: boolean }) {
         className="text-2xl font-bold tracking-tight flex-shrink-0"
         style={{ color: "var(--text-primary)" }}
       >
-        Skills &amp; Technologies
+        Technical Skills
       </h2>
 
-      <div className="grid grid-cols-4 gap-3 flex-1 content-start">
-        {SKILLS.map((skill) => (
-          <motion.div
-            key={skill.name}
-            whileHover={{ scale: 1.05, y: -2 }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
-            className="flex flex-col items-center gap-2 p-3 rounded-xl cursor-default"
-            style={{
-              background: dark
-                ? "rgba(255,255,255,0.05)"
-                : "rgba(0,0,0,0.04)",
-              border: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)"}`,
-            }}
-          >
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold select-none"
-              style={{ background: skill.bg, color: skill.color }}
-            >
-              {skill.abbr}
-            </div>
-            <span
-              className="text-[11px] font-medium text-center leading-tight"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              {skill.name}
-            </span>
-          </motion.div>
-        ))}
+      <p className="text-sm -mt-3" style={{ color: "var(--text-secondary)" }}>
+        Proficiency Matrix &amp; Technology Stack
+      </p>
+
+      <div className="flex-1 overflow-y-auto pr-2 space-y-4">
+        <section
+          className="rounded-xl p-4"
+          style={{
+            background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
+            border: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+          }}
+        >
+          <h3 className="text-[14px] font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
+            Core Languages
+          </h3>
+          <div className="space-y-2.5">
+            {CORE_LANGUAGES.map((s) => (
+              <div key={s.name}>
+                <div className="flex justify-between text-[12px] mb-1">
+                  <span style={{ color: "var(--text-primary)" }}>{s.name}</span>
+                  <span style={{ color: "var(--accent)", fontWeight: 700 }}>{s.pct}%</span>
+                </div>
+                <div
+                  style={{
+                    height: 7,
+                    borderRadius: 999,
+                    background: dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: `${s.pct}%`,
+                      height: "100%",
+                      borderRadius: 999,
+                      background: "linear-gradient(90deg, #2997ff, #7c3aed)",
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section
+          className="rounded-xl p-4"
+          style={{
+            background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
+            border: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+          }}
+        >
+          <h3 className="text-[14px] font-semibold mb-2.5" style={{ color: "var(--text-primary)" }}>
+            Frameworks &amp; Libraries
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {FRAMEWORKS_AND_LIBS.map((item) => (
+              <span
+                key={item}
+                className="text-[11px] font-medium px-2.5 py-1 rounded-full"
+                style={{
+                  color: "var(--accent)",
+                  background: dark ? "rgba(41,151,255,0.14)" : "rgba(0,113,227,0.1)",
+                }}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <section
+          className="rounded-xl p-4"
+          style={{
+            background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
+            border: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+          }}
+        >
+          <h3 className="text-[14px] font-semibold mb-2.5" style={{ color: "var(--text-primary)" }}>
+            Tools &amp; Databases
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {TOOLS_AND_DATABASES.map((item) => (
+              <span
+                key={item}
+                className="text-[11px] font-medium px-2.5 py-1 rounded-full"
+                style={{
+                  color: dark ? "#fbbf24" : "#92400e",
+                  background: dark ? "rgba(251,191,36,0.14)" : "rgba(251,191,36,0.16)",
+                }}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <section
+          className="rounded-xl p-4"
+          style={{
+            background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
+            border: `1px solid ${dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
+          }}
+        >
+          <h3 className="text-[14px] font-semibold mb-2.5" style={{ color: "var(--text-primary)" }}>
+            Concepts &amp; Focus Areas
+          </h3>
+          <ul className="space-y-1.5">
+            {FOCUS_AREAS.map((item) => (
+              <li key={item} className="text-[12px]" style={{ color: "var(--text-secondary)" }}>
+                • {item}
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
     </div>
   );
@@ -254,11 +385,11 @@ function Timeline({
 
 const EXPERIENCE: TimelineEntry[] = [
   {
-    title: "Full Stack Developer & AI Automation Engineer (Intern)",
+    title: "Backend/AI Systems Engineer (Intern)",
     subtitle: "Niti AI",
     period: "Dec 2025 – Present",
     detail:
-      "Contributing to full-stack product delivery and AI automation workflows in an on-site engineering environment.",
+      "Built and refined 5 Whys and RCA workflows to produce clearer root-cause analysis, and improved insights detection/capture so key findings are consistently synthesized, stored, and surfaced for product decision workflows.",
   },
   {
     title: "Artificial Intelligence Intern",
