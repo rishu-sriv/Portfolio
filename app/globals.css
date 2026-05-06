@@ -74,9 +74,9 @@
 html,
 body {
   height: 100%;
-  overflow: hidden; /* OS never scrolls */
 }
 
+/* Desktop OS mode — no scroll (set by DesktopShell wrapper) */
 body {
   color: var(--foreground);
   background: var(--background);
@@ -84,6 +84,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   user-select: none; /* macOS-like — text selection only inside windows */
+}
+
+/* Mobile: allow natural document scroll */
+@media (max-width: 767px) {
+  html, body {
+    overflow: auto;
+    height: auto;
+  }
 }
 
 /* Allow text selection inside windows */
@@ -137,4 +145,13 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
+}
+
+@keyframes spidey-sway-2d {
+  0% {
+    transform: translateX(-50%) translateY(0px) rotate(-8deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(8px) rotate(8deg);
+  }
 }

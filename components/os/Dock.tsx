@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useDesktopStore } from "@/store/useDesktopStore";
 import { useWindowStore } from "@/store/useWindowStore";
+import { useSound } from "@/hooks/useSound";
 import type { AppId } from "@/types";
 
 // ── Brand icon SVGs ───────────────────────────────────────────────────────────
@@ -92,6 +93,8 @@ const MAIN_APPS: DockApp[] = [
     bg: "linear-gradient(145deg, #e74c3c, #a93226)",
     color: "#ffffff",
     isApp: true,
+    iconLight: "/icons/launchpad.jpg",
+    iconDark: "/icons/launchpad.jpg",
   },
   {
     id: "safari",
@@ -100,7 +103,7 @@ const MAIN_APPS: DockApp[] = [
     bg: "linear-gradient(145deg, #3a9bd5, #1e6fa5)",
     color: "#ffffff",
     isApp: true,
-    iconLight: "/icons/safari-light.png",
+    iconLight: "/icons/safari-light.jpg",
     iconDark: "/icons/safari-dark.jpg",
   },
   {
@@ -128,6 +131,18 @@ const MAIN_APPS: DockApp[] = [
     bg: "linear-gradient(145deg, #9c27b0, #6a1b9a)",
     color: "#ffffff",
     isApp: true,
+    iconLight: "/icons/message.jpg",
+    iconDark: "/icons/message.jpg",
+  },
+  {
+    id: "spotify",
+    name: "Spotify",
+    Icon: BookOpen,
+    bg: "linear-gradient(145deg, #1db954, #158a3e)",
+    color: "#ffffff",
+    isApp: true,
+    iconLight: "/icons/spotify.jpg",
+    iconDark: "/icons/spotify.jpg",
   },
 ];
 
@@ -137,6 +152,8 @@ const TRASH_APP: DockApp = {
   Icon: Trash2,
   bg: "linear-gradient(145deg, #78909c, #546e7a)",
   color: "#ffffff",
+  iconLight: "/icons/trash.jpg",
+  iconDark: "/icons/trash.jpg",
 };
 
 const SOCIAL_APPS: DockApp[] = [
@@ -188,10 +205,11 @@ const APP_META: Partial<
 > = {
   finder:    { name: "Finder",    Icon: Folder,    bg: "linear-gradient(145deg,#1d72f3,#0a4db5)", color: "#fff",    titlebarBg: "#d8dce0", iconLight: "/icons/finder.jpg", iconDark: "/icons/finder.jpg" },
   launchpad: { name: "Launchpad", Icon: LayoutGrid, bg: "linear-gradient(145deg,#e74c3c,#a93226)", color: "#fff",    titlebarBg: "#e0d8d8" },
-  safari:    { name: "Safari",    Icon: Globe,      bg: "linear-gradient(145deg,#3a9bd5,#1e6fa5)", color: "#fff",    titlebarBg: "#d8dde0", iconLight: "/icons/safari-light.png", iconDark: "/icons/safari-dark.jpg" },
+  safari:    { name: "Safari",    Icon: Globe,      bg: "linear-gradient(145deg,#3a9bd5,#1e6fa5)", color: "#fff",    titlebarBg: "#d8dde0", iconLight: "/icons/safari-light.jpg", iconDark: "/icons/safari-dark.jpg" },
   terminal:  { name: "Terminal",  Icon: Terminal,   bg: "linear-gradient(145deg,#2d2d2d,#1a1a1a)", color: "#00ff88", titlebarBg: "#232323", iconLight: "/icons/terminal.jpg", iconDark: "/icons/terminal.jpg" },
   about:     { name: "About Me",   Icon: Fingerprint, bg: "linear-gradient(145deg,#a855f7,#6d28d9)", color: "#fff",    titlebarBg: "#e8d8f0" },
-  guestbook: { name: "Guestbook", Icon: BookOpen,   bg: "linear-gradient(145deg,#9c27b0,#6a1b9a)", color: "#fff",    titlebarBg: "#ddd8e0" },
+  guestbook: { name: "Guestbook", Icon: BookOpen,   bg: "linear-gradient(145deg,#9c27b0,#6a1b9a)", color: "#fff",    titlebarBg: "#ddd8e0", iconLight: "/icons/message.jpg", iconDark: "/icons/message.jpg" },
+  spotify:   { name: "Spotify",   Icon: BookOpen,   bg: "linear-gradient(145deg,#1db954,#158a3e)", color: "#fff",    titlebarBg: "#d8e8d8", iconLight: "/icons/spotify.jpg", iconDark: "/icons/spotify.jpg" },
   spotlight: { name: "Spotlight", Icon: Search,     bg: "linear-gradient(145deg,#607d8b,#455a64)", color: "#fff",    titlebarBg: "#d8dadb" },
 };
 
@@ -488,6 +506,7 @@ const APP_DEFAULTS: Partial<Record<AppId, { defaultPosition: { x: number; y: num
   about:     { defaultPosition: { x: 200, y: 120 }, defaultSize: { width: 560, height: 380 } },
   guestbook: { defaultPosition: { x: 160, y: 100 }, defaultSize: { width: 680, height: 500 } },
   launchpad: { defaultPosition: { x: 100, y: 60  }, defaultSize: { width: 800, height: 560 } },
+  spotify:   { defaultPosition: { x: 140, y: 60  }, defaultSize: { width: 900, height: 580 } },
 };
 
 // ── Dock ──────────────────────────────────────────────────────────────────────
@@ -496,6 +515,7 @@ export default function Dock() {
   const { openApp, setLaunchpadOpen, setSpotlightOpen } = useDesktopStore();
   const { windows, openWindow } = useWindowStore();
   const mouseX = useMotionValue(Infinity);
+  const playClick = useSound("dock-click");
 
   // Windows that are currently minimized
   const minimizedIds = (Object.keys(windows) as AppId[]).filter(
@@ -535,6 +555,7 @@ export default function Dock() {
               isActive={isActive}
               onClick={() => {
                 if (!app.isApp) return;
+                playClick();
                 if (id === "launchpad") {
                   setLaunchpadOpen(true);
                   return;
@@ -556,7 +577,7 @@ export default function Dock() {
             color: "#ffffff",
           }}
           mouseX={mouseX}
-          onClick={() => setSpotlightOpen(true)}
+          onClick={() => { playClick(); setSpotlightOpen(true); }}
         />
 
         {/* ── Social links ───────────────────────────────────────────────── */}
@@ -567,6 +588,7 @@ export default function Dock() {
             app={app}
             mouseX={mouseX}
             onClick={() => {
+              playClick();
               if (app.href) window.open(app.href, "_blank", "noopener,noreferrer");
             }}
           />

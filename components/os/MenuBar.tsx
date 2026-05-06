@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Wifi, BatteryFull, Moon, Sun } from "lucide-react";
+import { Wifi, BatteryFull, Moon, Sun, Volume2, VolumeX } from "lucide-react";
 import { useDesktopStore } from "@/store/useDesktopStore";
+import { useSoundStore } from "@/store/useSoundStore";
 
 // ── Apple logo ─────────────────────────────────────────────────────────────────
 
@@ -42,6 +43,7 @@ export default function MenuBar() {
   const [date, setDate] = useState<string>("");
   const { isDarkMode, toggleDarkMode, isNotificationCenterOpen, setNotificationCenterOpen } =
     useDesktopStore();
+  const { isMuted, toggleMute } = useSoundStore();
 
   useEffect(() => {
     const update = () => {
@@ -98,7 +100,38 @@ export default function MenuBar() {
 
       {/* ── Right ────────────────────────────────────────────────────── */}
       <div className="flex items-center" style={{ gap: "8px", color: TEXT_COLOR }}>
-        <BatteryFull size={15} strokeWidth={1.8} aria-label="Battery" />
+        <div className="relative flex items-center">
+          <BatteryFull size={15} strokeWidth={1.8} aria-label="Battery" />
+          <div
+            className="pointer-events-none select-none absolute"
+            style={{
+              // Hinge placed right next to the battery icon.
+              left: "calc(100% + 8px)",
+              top: "-10px",
+              width: 0,
+              height: 0,
+              transform: "translateX(-50%)",
+              transformOrigin: "top center",
+              animation: "spidey-sway-2d 2.4s ease-in-out infinite alternate",
+              zIndex: 1,
+            }}
+          >
+            <img
+              src="/decor/spiderman-hanging.png"
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              style={{
+                width: "auto",
+                height: "clamp(62vh, 72vh, 86vh)",
+                maxWidth: "none",
+                transform: "translateX(-50%)",
+                transformOrigin: "top center",
+                opacity: 0.98,
+              }}
+            />
+          </div>
+        </div>
         <Wifi size={13} strokeWidth={1.8} aria-label="Wi-Fi" />
 
         {/* Control Center */}
@@ -112,19 +145,35 @@ export default function MenuBar() {
           <ControlCenterIcon />
         </button>
 
-        {/* Dark / Light mode toggle */}
+        {/* Sound mute toggle */}
         <button
-          onClick={toggleDarkMode}
+          onClick={toggleMute}
           className="flex items-center justify-center px-1 py-0.5 rounded transition-colors"
           style={{ color: TEXT_COLOR }}
-          aria-label={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-          title={isDarkMode ? "Light Mode" : "Dark Mode"}
+          aria-label={isMuted ? "Unmute sounds" : "Mute sounds"}
+          title={isMuted ? "Unmute" : "Mute"}
         >
-          {isDarkMode
-            ? <Sun size={13} strokeWidth={1.8} />
-            : <Moon size={13} strokeWidth={1.8} />
+          {isMuted
+            ? <VolumeX size={13} strokeWidth={1.8} />
+            : <Volume2 size={13} strokeWidth={1.8} />
           }
         </button>
+
+        {/* Dark / Light mode toggle */}
+        <div className="relative">
+          <button
+            onClick={toggleDarkMode}
+            className="relative flex items-center justify-center px-1 py-0.5 rounded transition-colors"
+            style={{ color: TEXT_COLOR, zIndex: 2 }}
+            aria-label={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            title={isDarkMode ? "Light Mode" : "Dark Mode"}
+          >
+            {isDarkMode
+              ? <Sun size={13} strokeWidth={1.8} />
+              : <Moon size={13} strokeWidth={1.8} />
+            }
+          </button>
+        </div>
 
         {/* Date + Time — click to open Notification Center */}
         <button
